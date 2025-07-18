@@ -19,12 +19,12 @@ function getBillingOptions() {
 }
 
 // Function to generate admission number
-function generateAdmissionNumber() {
+async function generateAdmissionNumber() {
     try {
         const year = new Date().getFullYear();
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const students = await studentService.getAllStudents();
         const lastStudent = students.length > 0 ? students[students.length - 1] : null;
-        const lastNumber = lastStudent ? parseInt(lastStudent.admissionNumber.split('/')[2]) : 0;
+        const lastNumber = lastStudent ? parseInt(lastStudent.admission_number.split('/')[2]) : 0;
         const newNumber = lastNumber + 1;
         const admissionNumberElement = document.getElementById('admissionNumber');
         if (admissionNumberElement) {
@@ -276,70 +276,22 @@ function updateClassTeacher(selectedClass) {
     };
     
     const classTeacherField = document.getElementById('classTeacher');
-    if (classTeacherField) {
-        classTeacherField.value = classTeacherMap[selectedClass] || '';
-    }
+}
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Add event listener for class selection change
         const classSelect = document.getElementById('class');
         if (classSelect) {
             classSelect.addEventListener('change', (e) => {
-                updateClassTeacher(e.target.value);
+                updateFeeInputs(e.target.value);
             });
         }
-        // Base fee structure (default fees if not specified per term)
-        const BASE_FEE_STRUCTURE = {
-            '1': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500) // Use the correct lunch fee from feeStructure
-            },
-            '2': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '3': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '4': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '5': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '6': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '7': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            },
-            '8': { 
-                tuition: 10000, 
-                transport: 5000, 
-                lunch: (window.feeStructure?.lunchFees?.['Term 1'] || 1500)
-            }
-        };
 
-        // Default fee items that can be enabled/disabled per term
-        const FEE_ITEMS = [
-            { id: 'tuition', name: 'Tuition', default: true },
-            { id: 'transport', name: 'Transport', default: true },
-            { id: 'lunch', name: 'Lunch', default: true }
-        ];
+        await loadCustomFees();
+        updateClassTeacher('');
+        await generateAdmissionNumber();
 
         // Ensure feeStructure is only set once
         if (!window.feeStructure) {
@@ -363,7 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedOtherFees) feeStructure.otherFees = savedOtherFees;
         
         console.log('Loaded fee structure:', feeStructure);
-        
+
+        // ... (rest of the code remains the same)
         // Load custom fees after the DOM is fully loaded
         setTimeout(loadCustomFees, 300); // Small delay to ensure DOM is ready
     } catch (error) {
