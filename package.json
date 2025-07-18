@@ -4,7 +4,7 @@
   "description": "School Management System with Netlify Database",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'Build script runs here'",
+    "build": "mkdir -p dist && cp -r index.html student-registration.html student-list.html fee-structure.html css js images dist/",
     "dev": "netlify dev",
     "start": "netlify dev"
   },

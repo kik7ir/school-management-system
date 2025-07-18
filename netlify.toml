@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "./"
+  publish = "./dist"
   functions = "netlify/functions"
 
 [[redirects]]
@@ -11,4 +11,4 @@
 [dev]
   framework = "#custom"
   targetPort = 3000
-  publish = "./"
+  publish = "./dist"
