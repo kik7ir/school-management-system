@@ -36,8 +36,10 @@ function generateAdmissionNumber() {
     }
 }
 
+import { studentService } from './student-service.js';
+
 // Function to handle student registration
-function handleStudentRegistration(event) {
+async function handleStudentRegistration(event) {
     event.preventDefault();
     
     try {
@@ -76,92 +78,95 @@ function handleStudentRegistration(event) {
             customFees[checkbox.value] = true;
         });
         
-        // Get existing students
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const existingStudentIndex = students.findIndex(s => s.admissionNumber === admissionNumber);
-        
         let studentData;
         
         if (isEdit) {
-            if (existingStudentIndex >= 0) {
-                // Update existing student
-                studentData = students[existingStudentIndex];
-                
-                // Update basic info
-                studentData.fullName = form.fullName?.value?.trim() || '';
-                studentData.class = form.class?.value || '';
-                studentData.classTeacher = form.classTeacher?.value?.trim() || '';
-                studentData.parentName = form.parentName?.value?.trim() || '';
-                studentData.parentPhone = form.parentPhone?.value?.trim() || '';
-                
-                // Initialize termBilling if it doesn't exist
-                if (!studentData.termBilling) {
-                    studentData.termBilling = {};
-                }
-            
-            // Get the current term's billing options
-            const currentTermBilling = {
-                ...billingOptions,
-                ...customFees
-            };
-            
-            // Preserve billing options for other terms
-            const otherTermsBilling = { ...studentData.termBilling };
-            
-            // Update billing options for current term while preserving others
-            studentData.termBilling = {
-                ...otherTermsBilling,
-                [term]: currentTermBilling
-            };
-            
-                // Update the student in the array
-                students[existingStudentIndex] = studentData;
-                
-                console.log('Updated existing student:', studentData);
-            } else {
-                // In edit mode but student not found
-                throw new Error('Student not found for editing');
-            }
-        } else if (existingStudentIndex === -1) {
-            // Create new student only if not in edit mode and student doesn't exist
-            studentData = {
-                admissionNumber,
-                fullName: form.fullName?.value?.trim() || '',
-                class: form.class?.value || '',
-                classTeacher: form.classTeacher?.value?.trim() || '',
-                parentName: form.parentName?.value?.trim() || '',
-                parentPhone: form.parentPhone?.value?.trim() || '',
-                termBilling: {
-                    [term]: {
-                        ...billingOptions,
-                        ...customFees
+            // Update existing student
+            const existingStudent = await studentService.getStudentByAdmissionNumber(admissionNumber);
+            if (existingStudent) {
+                studentData = {
+                    id: existingStudent.id,
+                    admission_number: admissionNumber,
+                    full_name: form.fullName?.value?.trim() || '',
+                    class: form.class?.value || '',
+                    class_teacher: form.classTeacher?.value?.trim() || '',
+                    parent_name: form.parentName?.value?.trim() || '',
+                    parent_phone: form.parentPhone?.value?.trim() || '',
+                    school_fee: billingOptions.schoolFee,
+                    transport: billingOptions.transport,
+                    transport_location: billingOptions.transportLocation,
+                    lunch: billingOptions.lunch,
+                    ream_paper: billingOptions.reamPaper,
+                    activity: billingOptions.activity,
+                    admission_fee: billingOptions.admissionFee,
+                    swimming: billingOptions.swimming,
+                    uji_tea: billingOptions.ujiTea,
+                    snacks: billingOptions.snacks,
+                    trip: billingOptions.trip,
+                    term_billing: {
+                        [term]: billingOptions
+                    },
+                    custom_fees: {
+                        [term]: customFees
                     }
+                };
+                
+                // Update student in Supabase
+                await studentService.updateStudent(existingStudent.id, studentData);
+                
+                // Initialize fees for the new term if it's different
+                if (existingStudent.term_billing?.[term]) {
+                    await studentService.initializeStudentFees(existingStudent.id, term);
+                }
+                
+                alert('Student updated successfully!');
+            } else {
+                alert('Student not found!');
+                return false;
+            }
+        } else {
+            // Create new student
+            studentData = {
+                admission_number: admissionNumber,
+                full_name: form.fullName?.value?.trim() || '',
+                class: form.class?.value || '',
+                class_teacher: form.classTeacher?.value?.trim() || '',
+                parent_name: form.parentName?.value?.trim() || '',
+                parent_phone: form.parentPhone?.value?.trim() || '',
+                school_fee: billingOptions.schoolFee,
+                transport: billingOptions.transport,
+                transport_location: billingOptions.transportLocation,
+                lunch: billingOptions.lunch,
+                ream_paper: billingOptions.reamPaper,
+                activity: billingOptions.activity,
+                admission_fee: billingOptions.admissionFee,
+                swimming: billingOptions.swimming,
+                uji_tea: billingOptions.ujiTea,
+                snacks: billingOptions.snacks,
+                trip: billingOptions.trip,
+                term_billing: {
+                    [term]: billingOptions
                 },
-                payments: []
+                custom_fees: {
+                    [term]: customFees
+                }
             };
             
-            // Add new student to array
-            students.push(studentData);
-            console.log('Added new student:', studentData);
-        } else {
-            // Trying to add a student that already exists
-            alert('A student with this admission number already exists');
-            return false;
+            // Create student in Supabase
+            const createdStudent = await studentService.createStudent(studentData);
+            
+            // Initialize fees for the new student
+            await studentService.initializeStudentFees(createdStudent.id, term);
+            
+            alert('Student registered successfully!');
         }
-
-        // Save students to localStorage
-        localStorage.setItem('students', JSON.stringify(students));
-        
-        // Show success message
-        alert(`Student ${isEdit ? 'updated' : 'registered'} successfully!`);
         
         // Redirect to student list
         window.location.href = 'student-list.html';
-        
-        return true;
+        return false;
     } catch (error) {
-        console.error('Error saving student:', error);
-        alert('Error saving student. Please try again.');
+        console.error('Error registering student:', error);
+        alert('Error registering student. Please try again.');
         return false;
     }
 }
