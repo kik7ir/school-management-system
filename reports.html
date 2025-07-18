@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Reports - School Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0a192f;
+            --primary-blue: #172a45;
+            --accent-blue: #64ffda;
+            --text-light: #e6f1ff;
+            --text-muted: #8892b0;
+            --border-color: #233554;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--primary-blue);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .page-title { font-size: 2rem; margin-bottom: 2rem; text-align: center; }
+
+        .report-controls {
+            background-color: var(--primary-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background-color: #52e8d1;
+            transform: translateY(-2px);
+        }
+
+        .report-results {
+            background-color: var(--primary-blue);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th, .report-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .report-table th {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-blue);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(100, 255, 218, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .report-controls { flex-direction: column; align-items: stretch; }
+            .form-group { width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Student Performance Reports</h1>
+        <a href="index.html" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </header>
+
+    <div class="container">
+        <h2 class="page-title">Student Performance & Financial Reports</h2>
+        
+        <div class="report-controls">
+            <div class="form-group">
+                <label for="reportType">Report Type</label>
+                <select id="reportType" class="form-control">
+                    <option value="performance">Academic Performance</option>
+                    <option value="financial">Financial Summary</option>
+                    <option value="attendance">Attendance Report</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="classFilter">Class</label>
+                <select id="classFilter" class="form-control">
+                    <option value="">All Classes</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="termFilter">Term</label>
+                <select id="termFilter" class="form-control">
+                    <option value="1">Term 1</option>
+                    <option value="2">Term 2</option>
+                    <option value="3">Term 3</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button id="generateReport" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Generate Report
+                </button>
+            </div>
+        </div>
+        
+        <div class="report-results">
+            <div id="reportLoading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating report...</p>
+            </div>
+            
+            <div id="reportContent">
+                <div class="no-data" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h3>No Report Generated</h3>
+                    <p>Select your report criteria and click "Generate Report" to view data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateReport');
+            const reportType = document.getElementById('reportType');
+            const classFilter = document.getElementById('classFilter');
+            const termFilter = document.getElementById('termFilter');
+            const reportLoading = document.getElementById('reportLoading');
+            const reportContent = document.getElementById('reportContent');
+
+            // Load students from localStorage
+            function loadStudents() {
+                try {
+                    return JSON.parse(localStorage.getItem('students')) || [];
+                } catch (error) {
+                    console.error('Error loading students:', error);
+                    return [];
+                }
+            }
+
+            // Generate report based on selected filters
+            function generateReport() {
+                const type = reportType.value;
+                const classId = classFilter.value;
+                const term = termFilter.value;
+                
+                reportLoading.style.display = 'block';
+                reportContent.innerHTML = '';
+                
+                setTimeout(() => {
+                    try {
+                        const students = loadStudents();
+                        let filteredStudents = [...students];
+                        
+                        if (classId) {
+                            filteredStudents = filteredStudents.filter(student => student.classLevel === classId);
+                        }
+                        
+                        if (type === 'performance') {
+                            renderPerformanceReport(filteredStudents, term);
+                        } else if (type === 'financial') {
+                            renderFinancialReport(filteredStudents, term);
+                        } else if (type === 'attendance') {
+                            renderAttendanceReport(filteredStudents, term);
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error generating report:', error);
+                        reportContent.innerHTML = `
+                            <div class="error" style="padding: 2rem; color: #ff6b6b; text-align: center;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                                <h3>Error Generating Report</h3>
+                                <p>${error.message}</p>
+                            </div>
+                        `;
+                    } finally {
+                        reportLoading.style.display = 'none';
+                    }
+                }, 1000);
+            }
+
+            // Render performance report
+            function renderPerformanceReport(students, term) {
+                if (students.length === 0) {
+                    showNoDataMessage('No students found matching the criteria');
+                    return;
+                }
+
+                const sortedStudents = [...students].sort((a, b) => {
+                    const avgA = calculateAverageScore(a, term);
+                    const avgB = calculateAverageScore(b, term);
+                    return avgB - avgA;
+                });
+
+                let html = `
+                    <div class="report-summary" style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-blue);">Academic Performance Report - Term ${term}</h3>
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Students</div>
+                                <div style="font-size: 1.5rem; font-weight: 600;">${students.length}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Class Average</div>
+                                <div style="font-size: 1.5rem; font-weight: 600;">${calculateClassAverage(students, term).toFixed(1)}%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Top Performer</div>
+                                <div style="font-size: 1.1rem; font-weight: 500;">
+                                    ${sortedStudents[0]?.fullName || 'N/A'}
+                                    <span style="color: var(--accent-blue);">
+                                        ${sortedStudents[0] ? calculateAverageScore(sortedStudents[0], term).toFixed(1) + '%' : ''}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Admission No</th>
+                                    <th>Class</th>
+                                    <th>Term Average</th>
+                                    <th>Position</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                sortedStudents.forEach((student, index) => {
+                    const avgScore = calculateAverageScore(student, term);
+                    const remarks = getPerformanceRemarks(avgScore);
+                    
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${student.fullName || 'N/A'}</td>
+                            <td>${student.admissionNumber || 'N/A'}</td>
+                            <td>${student.classLevel ? 'Class ' + student.classLevel : 'N/A'}</td>
+                            <td>${avgScore.toFixed(1)}%</td>
+                            <td>${getOrdinalSuffix(index + 1)}</td>
+                            <td>${remarks}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    ${getReportFooter()}
+                `;
+
+                reportContent.innerHTML = html;
+                setupExportButtons();
+            }
+
+            // Render financial report
+            function renderFinancialReport(students, term) {
+                if (students.length === 0) {
+                    showNoDataMessage('No financial data available');
+                    return;
+                }
+
+                let totalFees = 0;
+                let totalPaid = 0;
+                
+                students.forEach(student => {
+                    const fees = student.fees || {};
+                    const termFees = fees[`term${term}`] || { amount: 0, paid: 0 };
+                    totalFees += parseFloat(termFees.amount) || 0;
+                    totalPaid += parseFloat(termFees.paid) || 0;
+                });
+                
+                const totalBalance = totalFees - totalPaid;
+
+                let html = `
+                    <div class="report-summary" style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-blue);">Financial Summary - Term ${term}</h3>
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Students</div>
+                                <div style="font-size: 1.5rem; font-weight: 600;">${students.length}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Fees</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: #4ade80;">KSH ${totalFees.toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Paid</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: #60a5fa;">KSH ${totalPaid.toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Balance</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: ${totalBalance > 0 ? '#f87171' : '#4ade80'};">
+                                    KSH ${Math.abs(totalBalance).toLocaleString()}
+                                    ${totalBalance > 0 ? 'Owed' : 'Overpaid'}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <div style="flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                <div style="width: ${(totalPaid / (totalFees || 1)) * 100}%; height: 100%; background: #4ade80;"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                ${((totalPaid / (totalFees || 1)) * 100).toFixed(1)}% Collected
+                            </div>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Admission No</th>
+                                    <th>Class</th>
+                                    <th>Term Fees (KSH)</th>
+                                    <th>Amount Paid (KSH)</th>
+                                    <th>Balance (KSH)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                students.forEach((student, index) => {
+                    const fees = student.fees || {};
+                    const termFees = fees[`term${term}`] || { amount: 0, paid: 0 };
+                    const amount = parseFloat(termFees.amount) || 0;
+                    const paid = parseFloat(termFees.paid) || 0;
+                    const balance = amount - paid;
+                    
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${student.fullName || 'N/A'}</td>
+                            <td>${student.admissionNumber || 'N/A'}</td>
+                            <td>${student.classLevel ? 'Class ' + student.classLevel : 'N/A'}</td>
+                            <td>${amount.toLocaleString()}</td>
+                            <td>${paid.toLocaleString()}</td>
+                            <td style="color: ${balance > 0 ? '#f87171' : '#4ade80'};">
+                                ${Math.abs(balance).toLocaleString()}
+                                ${balance > 0 ? 'Owed' : balance < 0 ? 'Overpaid' : 'Paid'}
+                            </td>
+                            <td>
+                                <span style="
+                                    display: inline-block;
+                                    padding: 0.25rem 0.5rem;
+                                    border-radius: 9999px;
+                                    font-size: 0.75rem;
+                                    font-weight: 500;
+                                    background-color: ${balance === 0 ? '#dcfce7' : '#fee2e2'};
+                                    color: ${balance === 0 ? '#166534' : '#991b1b'};
+                                ">
+                                    ${balance === 0 ? 'Fully Paid' : 'Balance Due'}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    ${getReportFooter()}
+                `;
+
+                reportContent.innerHTML = html;
+                setupExportButtons();
+            }
+
+            // Render attendance report
+            function renderAttendanceReport(students, term) {
+                if (students.length === 0) {
+                    showNoDataMessage('No attendance data available');
+                    return;
+                }
+
+                let totalPresent = 0;
+                let totalAbsent = 0;
+                let totalLate = 0;
+                
+                students.forEach(student => {
+                    const attendance = student.attendance || {};
+                    const termAttendance = attendance[`term${term}`] || {};
+                    totalPresent += termAttendance.present || 0;
+                    totalAbsent += termAttendance.absent || 0;
+                    totalLate += termAttendance.late || 0;
+                });
+                
+                const attendanceRate = (totalPresent / (totalPresent + totalAbsent + totalLate) * 100) || 0;
+
+                let html = `
+                    <div class="report-summary" style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-blue);">Attendance Summary - Term ${term}</h3>
+                        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Total Students</div>
+                                <div style="font-size: 1.5rem; font-weight: 600;">${students.length}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Attendance Rate</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: #4ade80;">${attendanceRate.toFixed(1)}%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Present</div>
+                                <div style="font-size: 1.5rem; font-weight: 600;">${totalPresent}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Absent</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: #f87171;">${totalAbsent}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">Late</div>
+                                <div style="font-size: 1.5rem; font-weight: 600; color: #fbbf24;">${totalLate}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Admission No</th>
+                                    <th>Class</th>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Late</th>
+                                    <th>Attendance %</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                students.forEach((student, index) => {
+                    const attendance = student.attendance || {};
+                    const termAttendance = attendance[`term${term}`] || {};
+                    const present = termAttendance.present || 0;
+                    const absent = termAttendance.absent || 0;
+                    const late = termAttendance.late || 0;
+                    const total = present + absent + late;
+                    const percentage = total > 0 ? (present / total) * 100 : 0;
+                    
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${student.fullName || 'N/A'}</td>
+                            <td>${student.admissionNumber || 'N/A'}</td>
+                            <td>${student.classLevel ? 'Class ' + student.classLevel : 'N/A'}</td>
+                            <td>${present}</td>
+                            <td>${absent}</td>
+                            <td>${late}</td>
+                            <td>${percentage.toFixed(1)}%</td>
+                            <td>
+                                <span style="
+                                    display: inline-block;
+                                    padding: 0.25rem 0.5rem;
+                                    border-radius: 9999px;
+                                    font-size: 0.75rem;
+                                    font-weight: 500;
+                                    background-color: ${percentage >= 90 ? '#dcfce7' : percentage >= 75 ? '#fef9c3' : '#fee2e2'};
+                                    color: ${percentage >= 90 ? '#166534' : percentage >= 75 ? '#854d0e' : '#991b1b'};
+                                ">
+                                    ${percentage >= 90 ? 'Excellent' : percentage >= 75 ? 'Satisfactory' : 'Needs Improvement'}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    ${getReportFooter('Based on available attendance records.')}
+                `;
+
+                reportContent.innerHTML = html;
+                setupExportButtons();
+            }
+
+            // Helper functions
+            function calculateAverageScore(student, term) {
+                if (!student.exams || !student.exams[`term${term}`]) return 0;
+                const termExams = student.exams[`term${term}`];
+                const subjects = Object.keys(termExams);
+                if (subjects.length === 0) return 0;
+                const total = subjects.reduce((sum, subject) => sum + (parseFloat(termExams[subject].score) || 0), 0);
+                return total / subjects.length;
+            }
+
+            function calculateClassAverage(students, term) {
+                if (students.length === 0) return 0;
+                const total = students.reduce((sum, student) => sum + calculateAverageScore(student, term), 0);
+                return total / students.length;
+            }
+
+            function getPerformanceRemarks(average) {
+                if (average >= 80) return 'Excellent';
+                if (average >= 70) return 'Very Good';
+                if (average >= 60) return 'Good';
+                if (average >= 50) return 'Average';
+                if (average >= 40) return 'Below Average';
+                return 'Needs Improvement';
+            }
+
+            function getOrdinalSuffix(num) {
+                const j = num % 10, k = num % 100;
+                if (j === 1 && k !== 11) return num + 'st';
+                if (j === 2 && k !== 12) return num + 'nd';
+                if (j === 3 && k !== 13) return num + 'rd';
+                return num + 'th';
+            }
+
+            function getReportFooter(note = '') {
+                return `
+                    <div style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);">
+                        ${note ? `<div style="font-size: 0.8rem; color: var(--text-muted);"><i class="fas fa-info-circle"></i> ${note}</div>` : '<div></div>'}
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                Generated on ${new Date().toLocaleDateString()}
+                            </div>
+                            <button id="exportPdf" class="btn btn-primary">
+                                <i class="fas fa-file-pdf"></i> Export as PDF
+                            </button>
+                            <button id="exportExcel" class="btn btn-primary">
+                                <i class="fas fa-file-excel"></i> Export as Excel
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function showNoDataMessage(message) {
+                reportContent.innerHTML = `
+                    <div class="no-data" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                        <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>No Data Available</h3>
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+
+            function setupExportButtons() {
+                document.getElementById('exportPdf')?.addEventListener('click', () => {
+                    alert('PDF export functionality will be implemented here');
+                });
+                
+                document.getElementById('exportExcel')?.addEventListener('click', () => {
+                    alert('Excel export functionality will be implemented here');
+                });
+            }
+
+            // Event listeners
+            generateBtn.addEventListener('click', generateReport);
+            
+            // Generate report on page load with default filters
+            generateReport();
+        });
+    </script>
+</body>
+</html>

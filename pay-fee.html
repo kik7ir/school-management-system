@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Student Fee - School Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pay-fee.css">
+</head>
+<body>
+    <header>
+        <h1>Pay Student Fee</h1>
+        <button onclick="window.location.href='student-list.html'" class="back-btn">Back to Student List</button>
+    </header>
+
+    <main>
+        <div class="payment-container">
+            <form id="paymentForm">
+                <input type="hidden" id="admissionNumber" name="admissionNumber">
+                <input type="hidden" id="studentName" name="studentName">
+                
+                <div class="form-group">
+                    <label for="amount">Amount to Pay (KES):</label>
+                    <input type="number" id="amount" name="amount" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method:</label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="mpesa">MPESA</option>
+                        <option value="cash">Cash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionCode">Transaction Code/Receipt Number (Optional):</label>
+                    <input type="text" id="transactionCode" name="transactionCode">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Payment Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes (Optional):</label>
+                    <textarea id="notes" name="notes"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Payment</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 School Management System</p>
+    </footer>
+
+    <script src="pay-fee.js"></script>
+</body>
+</html>

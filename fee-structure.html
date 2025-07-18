@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Structure - School Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fee-structure.css">
+</head>
+<body>
+    <header>
+        <h1>Fee Structure Management</h1>
+        <button onclick="window.location.href='index.html'" class="back-btn">Back to Home</button>
+    </header>
+
+    <main>
+        <div class="fee-container">
+            <div class="fee-section">
+                <h2>School Fees</h2>
+                <div id="school-fees">
+                    <!-- School fees will be populated here -->
+                </div>
+            </div>
+
+            <div class="fee-section">
+                <h2>Lunch Fees</h2>
+                <div id="lunch-fees">
+                    <!-- Lunch fees will be populated here -->
+                </div>
+            </div>
+
+            <div class="fee-section">
+                <h2>Transport Fees</h2>
+                <div id="transport-fees">
+                    <!-- Transport fees will be populated here -->
+                </div>
+            </div>
+
+            <div class="fee-section">
+                <h2>Other Fees</h2>
+                <div id="other-fees">
+                    <!-- Other fees will be populated here -->
+                </div>
+                
+                <!-- Add Custom Fee -->
+                <div class="add-custom-fee">
+                    <h3>Add Custom Fee</h3>
+                    <div class="form-group">
+                        <input type="text" id="custom-fee-name" placeholder="Fee Name" class="form-control">
+                        <input type="number" id="custom-fee-amount" placeholder="Amount" class="form-control" min="0">
+                        <button onclick="addCustomFee()" class="btn">Add Fee</button>
+                    </div>
+                </div>
+                
+                <!-- Custom Fees List -->
+                <div class="custom-fees-list">
+                    <h3>Custom Fees</h3>
+                    <div id="custom-fees-container">
+                        <!-- Custom fees will be listed here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button onclick="saveFees()" class="save-btn">Save Changes</button>
+                <button onclick="window.location.reload()" class="btn">Cancel</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 School Management System</p>
+    </footer>
+
+    <script src="fee-structure.js"></script>
+</body>
+</html>

@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - School Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Modern White & Blue Theme */
+        :root {
+            --primary-color: #1e88e5;
+            --primary-dark: #1565c0;
+            --primary-light: #e3f2fd;
+            --accent-color: #ff4081;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --background: #f5f7fa;
+            --surface: #ffffff;
+            --border-color: #e0e0e0;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --info: #2196f3;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 1rem;
+            margin: 0;
+        }
+        
+        .registration-container {
+            max-width: 1000px;
+            margin: 1rem auto;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(30, 136, 229, 0.1);
+            border: 1px solid var(--border-color);
+            transform: translateY(0);
+            transition: var(--transition);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .registration-container {
+                padding: 1.25rem;
+                margin: 0.5rem;
+            }
+        }
+        
+        @keyframes float {
+            0% { 
+                transform: translateY(0);
+                box-shadow: 0 8px 32px rgba(30, 136, 229, 0.1);
+            }
+            50% { 
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15);
+            }
+            100% { 
+                transform: translateY(0);
+                box-shadow: 0 8px 32px rgba(30, 136, 229, 0.1);
+            }
+        }
+        
+        .registration-container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            background: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(30, 136, 229, 0.05);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        @media (max-width: 768px) {
+            .form-section {
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+            }
+        }
+        
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(30, 136, 229, 0.15);
+        }
+        
+        .form-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-section h2::before {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Compact Form Layout */
+        .compact-form .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group.col-1 {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .form-group.col-2 {
+            flex: 2;
+            min-width: 200px;
+        }
+        
+        .compact-form .form-group {
+            margin-bottom: 0.5rem;
+        }
+        
+        .compact-form label {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+            display: block;
+            color: var(--text-secondary);
+        }
+        
+        .compact-form input,
+        .compact-form select {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.9rem !important;
+            height: 38px !important;
+        }
+        
+        .compact-form .error-message {
+            font-size: 0.75rem;
+            margin-top: 0.15rem;
+        }
+        
+        @media (max-width: 768px) {
+            .compact-form .form-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .form-group.col-1,
+            .form-group.col-2 {
+                min-width: 100%;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: slideIn 0.4s ease-out forwards;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.05s; }
+        .form-group:nth-child(2) { animation-delay: 0.1s; }
+        .form-group:nth-child(3) { animation-delay: 0.15s; }
+        .form-group:nth-child(4) { animation-delay: 0.2s; }
+        
+        @media (max-width: 768px) {
+            .form-group {
+                margin-bottom: 0.75rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .form-group:focus-within label {
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        @media (max-width: 768px) {
+            .form-group input,
+            .form-group select {
+                padding: 0.65rem 0.9rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+            background-color: white;
+        }
+        
+        .form-group input::placeholder {
+            color: #bdbdbd;
+        }
+        
+        /* Custom select arrow */
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23757575' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px 12px;
+            padding-right: 2.5rem;
+        }
+
+        .billing-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .billing-section {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                margin: 1rem 0;
+            }
+        }
+
+        .billing-option {
+            position: relative;
+            margin-bottom: 0;
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .billing-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .billing-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 136, 229, 0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .billing-option:hover::before {
+            height: 100%;
+        }
+        
+        .billing-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .billing-option label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+            padding-right: 2rem;
+            position: relative;
+        }
+        
+        .billing-option label::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .billing-option input[type="checkbox"]:checked + label::after {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 12px 12px;
+        }
+        
+        .billing-option:hover label::after {
+            border-color: var(--primary-color);
+        }
+        
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: var(--primary-color);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.25);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            background: var(--primary-dark);
+            box-shadow: 0 6px 16px rgba(30, 136, 229, 0.35);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+            z-index: -1;
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 320px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: var(--primary-dark);
+            box-shadow: 0 8px 25px rgba(30, 136, 229, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+        
+        .back-btn {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+        }
+        
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0 0.5rem;
+            animation: fadeInUp 0.4s ease-out 0.2s both;
+        }
+        
+        @media (max-width: 768px) {
+            .form-actions {
+                margin: 1.25rem 0 0.25rem;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Transport Options Styling */
+        .transport-options {
+            margin: 1rem 0 0.5rem;
+            display: grid;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .transport-options {
+                gap: 0.5rem;
+                padding: 0.25rem 0;
+            }
+        }
+
+        .transport-options .form-group {
+            margin: 0;
+            opacity: 1;
+            animation: none;
+        }
+
+        .transport-options label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.25rem;
+            background: var(--background);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            margin: 0;
+        }
+        
+        .transport-options label:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.15);
+            background: white;
+        }
+        
+        .transport-options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .transport-options input[type="radio"]:checked + label {
+            background: rgba(30, 136, 229, 0.08);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+        
+        .transport-options input[type="radio"]:focus + label {
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+        }
+        
+        .transport-options label::before {
+            content: '';
+            display: inline-block;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .transport-options input[type="radio"]:checked + label::before {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: inset 0 0 0 3px white;
+        }
+        
+        .transport-options label:hover::before {
+            border-color: var(--primary-color);
+        }
+
+        .billing-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            position: relative;
+            background: var(--accent-blue);
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
+            letter-spacing: 1.5px;
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+        
+        .submit-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        .submit-btn .btn-text {
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn.loading .btn-text {
+            margin-right: 0.5rem;
+        }
+        
+        .submit-btn .spinner {
+            width: 0;
+            height: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-btn.loading .spinner {
+            width: 20px;
+            opacity: 1;
+        }
+        
+        .spinner-circle {
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top-color: var(--primary-dark);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        /* Term Fee Settings Styles */
+        .form-section {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        
+        .form-section h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .term-fee-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .term-tab {
+            padding: 8px 15px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .term-tab.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+        
+        .term-pane {
+            display: none;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .term-pane.active {
+            display: block;
+        }
+        
+        .fee-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        
+        .fee-item label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .fee-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .fee-amount {
+            width: 100px;
+            padding: 5px;
+            margin-left: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .fee-item input[type="number"]:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Registration</h1>
+        <nav>
+            <button onclick="window.location.href='index.html'" class="back-btn">Back to Home</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="registration-container">
+            <form id="studentForm" onsubmit="return handleStudentRegistration(event)">
+                <!-- Term Selection -->
+                <div class="form-section">
+                    <h2>Academic Term</h2>
+                    <div class="form-group">
+                        <label for="term">Current Term:</label>
+                        <select id="term" name="term" required>
+                            <option value="Term 1">Term 1</option>
+                            <option value="Term 2">Term 2</option>
+                            <option value="Term 3">Term 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Student Information -->
+                <div class="form-section compact-form">
+                    <h2>Student Information</h2>
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <small class="error-message">Required</small>
+                        </div>
+                        <div class="form-group col-1">
+                            <label for="admissionNumber">Adm No.</label>
+                            <input type="text" id="admissionNumber" name="admissionNumber" readonly>
+                            <small class="error-message">Required</small>
+                        </div>
+                        <div class="form-group col-1">
+                            <label for="class">Class</label>
+                            <select id="class" name="class" required>
+                                <option value="">Select Class</option>
+                                <option value="PG">PG</option>
+                                <option value="PP1">PP1</option>
+                                <option value="PP2">PP2</option>
+                                <option value="Grade 1">Grade 1</option>
+                                <option value="Grade 2">Grade 2</option>
+                                <option value="Grade 3">Grade 3</option>
+                                <option value="Grade 4">Grade 4</option>
+                                <option value="Grade 5">Grade 5</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Junior Secondary">Junior Secondary</option>
+                            </select>
+                            <small class="error-message">Required</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="classTeacher">Class Teacher:</label>
+                        <input type="text" id="classTeacher" name="classTeacher" value="Teacher Peter" required>
+                        <small class="error-message">Class teacher is required</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentName">Parent's Name:</label>
+                        <input type="text" id="parentName" name="parentName" required>
+                        <small class="error-message">Parent name is required</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentPhone">Parent's Phone:</label>
+                        <input type="tel" id="parentPhone" name="parentPhone" required pattern="[0-9]{10}">
+                        <small class="error-message">Please enter a valid 10-digit phone number</small>
+                    </div>
+                </div>
+
+                <!-- Error Message Container -->
+                <div class="error-message" style="display: none;"></div>
+
+                <!-- Success Message Container -->
+                <div class="success-message" style="display: none;"></div>
+
+                <!-- Billing Options Section -->
+                <div class="form-section">
+                    <h2>Billing Options</h2>
+                    <div class="billing-section">
+                        <!-- School Fee -->
+                        <div class="billing-option">
+                            <input type="checkbox" id="schoolFee" checked>
+                            <label for="schoolFee">School Fee</label>
+                        </div>
+
+                        <!-- Transport -->
+                        <div class="billing-option">
+                            <input type="checkbox" id="transport">
+                            <label for="transport">Transport</label>
+                            <div class="transport-options">
+                                <div class="form-group">
+                                    <label for="transportLocation">Location (optional):</label>
+                                    <select id="transportLocation">
+                                        <option value="">Select Location (Optional)</option>
+                                        <option value="Kipkaren Estate">Kipkaren Estate</option>
+                                        <option value="Segero, Kipkenyo, Simat, Flyoner">Segero, Kipkenyo, Simat, Flyoner</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transportMode">Transport Mode (optional):</label>
+                                    <select id="transportMode">
+                                        <option value="">Select Transport Mode (Optional)</option>
+                                        <option value="Bus">Bus</option>
+                                        <option value="Van A">Van A</option>
+                                        <option value="Van B">Van B</option>
+                                        <option value="Bus 2">Bus 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Fees -->
+                        <div class="billing-option">
+                            <input type="checkbox" id="lunch">
+                            <label for="lunch">Lunch</label>
+                        </div>
+                        <div class="billing-option">
+                            <input type="checkbox" id="reamPaper">
+                            <label for="reamPaper">REAM Paper</label>
+                        </div>
+                        <div class="billing-option">
+                            <input type="checkbox" id="activity">
+                            <label for="activity">Activity</label>
+                        </div>
+                        <div class="billing-option">
+                            <input type="checkbox" id="admissionFee">
+                            <label for="admissionFee">Admission Fee</label>
+                        </div>
+                        <div class="billing-option">
+                            <input type="checkbox" id="swimming">
+                            <label for="swimming">Swimming</label>
+                        </div>
+                        <div class="billing-option">
+                            <input type="checkbox" id="ujiTea">
+                            <label for="ujiTea">Uji/Tea</label>
+                        </div>
+                        
+                        <!-- Dynamic Custom Fees will be added here -->
+                        <div id="custom-fees-container"></div>
+
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitButton">
+                        <span class="btn-text">Register Student</span>
+                        <span class="spinner">
+                            <span class="spinner-circle"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 School Management System</p>
+    </footer>
+    <script src="student-registration.js"></script>
+</body>
+</html>

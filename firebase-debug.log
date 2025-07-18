@@ -1,0 +1,239 @@
+[debug] [2025-07-03T18:43:05.496Z] ----------------------------------------------------------------------
+[debug] [2025-07-03T18:43:05.499Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2025-07-03T18:43:05.499Z] CLI Version:   14.9.0
+[debug] [2025-07-03T18:43:05.500Z] Platform:      win32
+[debug] [2025-07-03T18:43:05.500Z] Node Version:  v22.17.0
+[debug] [2025-07-03T18:43:05.500Z] Time:          Thu Jul 03 2025 21:43:05 GMT+0300 (East Africa Time)
+[debug] [2025-07-03T18:43:05.500Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-03T18:43:05.781Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-03T18:43:05.783Z] > authorizing via signed-in user (sararav136@gmail.com)
+[debug] [2025-07-03T18:43:05.783Z] [iam] checking project my-share-to-earn for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-07-03T18:43:05.785Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:05.786Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:05.787Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions [none]
+[debug] [2025-07-03T18:43:05.788Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions x-goog-quota-user=projects/my-share-to-earn
+[debug] [2025-07-03T18:43:05.789Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-03T18:43:07.614Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions 200
+[debug] [2025-07-03T18:43:07.615Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-03T18:43:07.617Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:07.617Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:07.618Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn [none]
+[debug] [2025-07-03T18:43:08.452Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn 200
+[debug] [2025-07-03T18:43:08.454Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn {"projectId":"my-share-to-earn","projectNumber":"617306040136","displayName":"ALC ACADEMY SYSTEM","name":"projects/my-share-to-earn","resources":{"hostingSite":"my-share-to-earn","realtimeDatabaseInstance":"my-share-to-earn-default-rtdb"},"state":"ACTIVE","etag":"1_c055c849-e98a-463d-a3d2-19db0bb625f5"}
+[info] 
+[info] === Deploying to 'my-share-to-earn'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-07-03T18:43:08.483Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:08.485Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:08.486Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions [none]
+[debug] [2025-07-03T18:43:08.487Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-07-03T18:43:11.231Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions 200
+[debug] [2025-07-03T18:43:11.233Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions {"name":"projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[my-share-to-earn]: beginning deploy... 
+[info] i  hosting[my-share-to-earn]: found 18 files in . 
+[debug] [2025-07-03T18:43:11.298Z] [hosting] uploading with 200 concurrency
+[debug] [2025-07-03T18:43:11.318Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:11.319Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:11.320Z] [hosting] hash cache [] stored for 18 files
+[debug] [2025-07-03T18:43:11.321Z] [hosting][hash queue][FINAL] {"max":14,"min":0,"avg":1.0555555555555556,"active":0,"complete":18,"success":18,"errored":0,"retried":0,"total":18,"elapsed":19}
+[debug] [2025-07-03T18:43:11.322Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c:populateFiles [none]
+[debug] [2025-07-03T18:43:11.322Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c:populateFiles {"files":{"/windsurf_deployment.yaml":"6bf0d26451d115a619a891e2ee80b74aca0e78002191f4885c0e6cb63bb4d2d0","/temp.txt":"43f32b05dad9286c5dc84d789111a60ffa45015678b240d7b56085411eadc1c6","/styles.css":"86295e96ffd813488e38c808e4a0e480b91f71d33363a1d156808fda84f6c708","/student-registration.js":"da3a7364e7041863617d5fbb4afe96b934aae17d62097eaff007dd80bfe426d6","/student-registration.html":"3bfded1fb9ba59b269dba084b8c95aa3ccd39223370e0df079de7629dcbbe962","/student-list.html":"33569703c3dc75c5021b1edfccc82d4b0eab7c957e12a2f61c47d0ad7f39c6fc","/pay-fee.js":"98a49d2547d9ee13accff9b593f04d99095557c7c639ea3d382ccd5b17e85342","/pay-fee.html":"12282dbb2b6903cfab647b992617fd526caeba3f4ed6ec8c886a13fd0f7c8d16","/pay-fee.css":"dd6f5878b89bb6d1709ba6e26f764cfe1a81f04a00159340dd0b64615ec64e46","/index.html":"819f404cd78d1b785a9934330e5fce084741b17c5e356c24eef4e36bbf01348d","/firebase-setup.html":"deaef594292c8a54934a148c4c9808d2e965c56dd8f0f61e71ebe379651b0e9c","/firebase-config.js":"1e9658d52943e4905ddcc6062ae821fcc47da6c3c7591a7401d52c7fb15eaa0a","/fee-structure.js":"e16f9a03f2085621b0f84ce57ae9fecbf26bcecd67842981d74c6dcd380f1894","/fee-structure.html":"370bcb296f202686328bdd1620c82edf1b62f804497e9103374d35ef546311fa","/fee-structure.css":"ffd9bf442135fbd84744f0fe4a69633e18ac07c68de05fb033d02ea08784150b","/.vscode/launch.json":"186f9d5d4c7add7e522e29903ed87ff20068ef0e70b4ae8091def08840a2632e","/pglite-debug.log":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/student-list.js":"58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9"}}
+[debug] [2025-07-03T18:43:12.115Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c:populateFiles 200
+[debug] [2025-07-03T18:43:12.116Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c:populateFiles {"uploadRequiredHashes":["58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/5721b718ccff475c/files"}
+[debug] [2025-07-03T18:43:12.117Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:12.117Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:12.118Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/5721b718ccff475c/files/58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9 [none]
+[debug] [2025-07-03T18:43:12.118Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/5721b718ccff475c/files/58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9 [stream]
+[debug] [2025-07-03T18:43:12.120Z] [hosting][populate queue][FINAL] {"max":800,"min":800,"avg":800,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":802}
+[debug] [2025-07-03T18:43:12.120Z] [hosting] uploads queued: 1
+[info] i  hosting: uploading new files [0/1] (0%) 
+[debug] [2025-07-03T18:43:13.836Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/5721b718ccff475c/files/58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9 200
+[debug] [2025-07-03T18:43:13.837Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/5721b718ccff475c/files/58da2782ea7a0fdf94cafcb3c8366a62d26a0fc224291675f63be0cea51a41d9 [stream]
+[debug] [2025-07-03T18:43:13.839Z] [hosting][upload queue][FINAL] {"max":1721,"min":1721,"avg":1721,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1722}
+[info] i  hosting: upload complete 
+[info] +  hosting[my-share-to-earn]: file upload complete 
+[debug] [2025-07-03T18:43:13.843Z] [hosting] deploy completed after 2597ms
+[debug] [2025-07-03T18:43:13.845Z] [
+  {
+    "config": {
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "my-share-to-earn"
+    },
+    "version": "projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c"
+  }
+]
+[info] i  hosting[my-share-to-earn]: finalizing version... 
+[debug] [2025-07-03T18:43:13.861Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:13.862Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:13.865Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/5721b718ccff475c updateMask=status%2Cconfig
+[debug] [2025-07-03T18:43:13.867Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/5721b718ccff475c {"status":"FINALIZED","config":{}}
+[debug] [2025-07-03T18:43:14.580Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/5721b718ccff475c 200
+[debug] [2025-07-03T18:43:14.581Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/5721b718ccff475c {"name":"projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T06:42:05.182871Z","createUser":{"email":"sararav136@gmail.com"},"finalizeTime":"2025-07-03T06:42:09.161505Z","finalizeUser":{"email":"sararav136@gmail.com"}}
+[debug] [2025-07-03T18:43:14.583Z] [hosting] finalized version for my-share-to-earn:[object Object]
+[info] +  hosting[my-share-to-earn]: version finalized 
+[info] i  hosting[my-share-to-earn]: releasing new version... 
+[debug] [2025-07-03T18:43:14.588Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:14.589Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T18:43:14.591Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases versionName=projects%2F617306040136%2Fsites%2Fmy-share-to-earn%2Fversions%2F5721b718ccff475c
+[debug] [2025-07-03T18:43:14.592Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases {}
+[debug] [2025-07-03T18:43:15.470Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases 200
+[debug] [2025-07-03T18:43:15.472Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases {"name":"projects/617306040136/sites/my-share-to-earn/channels/live/releases/1751524929369000","version":{"name":"projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T06:42:05.182871Z","createUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"},"finalizeTime":"2025-07-03T06:42:09.161505Z","finalizeUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}},"type":"DEPLOY","releaseTime":"2025-07-03T06:42:09.369Z","releaseUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}}
+[debug] [2025-07-03T18:43:15.480Z] [hosting] release: {"name":"projects/617306040136/sites/my-share-to-earn/channels/live/releases/1751524929369000","version":{"name":"projects/617306040136/sites/my-share-to-earn/versions/5721b718ccff475c","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T06:42:05.182871Z","createUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"},"finalizeTime":"2025-07-03T06:42:09.161505Z","finalizeUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}},"type":"DEPLOY","releaseTime":"2025-07-03T06:42:09.369Z","releaseUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}}
+[info] +  hosting[my-share-to-earn]: release complete 
+[info] 
+[info] +  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/my-share-to-earn/overview
+[info] Hosting URL: https://my-share-to-earn.web.app
+[debug] [2025-07-03T19:08:59.888Z] ----------------------------------------------------------------------
+[debug] [2025-07-03T19:08:59.895Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2025-07-03T19:08:59.896Z] CLI Version:   14.9.0
+[debug] [2025-07-03T19:08:59.896Z] Platform:      win32
+[debug] [2025-07-03T19:08:59.896Z] Node Version:  v22.17.0
+[debug] [2025-07-03T19:08:59.897Z] Time:          Thu Jul 03 2025 22:08:59 GMT+0300 (East Africa Time)
+[debug] [2025-07-03T19:08:59.897Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-03T19:09:00.188Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-03T19:09:00.190Z] > authorizing via signed-in user (sararav136@gmail.com)
+[debug] [2025-07-03T19:09:00.191Z] [iam] checking project my-share-to-earn for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-07-03T19:09:00.193Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:00.193Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:00.195Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions [none]
+[debug] [2025-07-03T19:09:00.195Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions x-goog-quota-user=projects/my-share-to-earn
+[debug] [2025-07-03T19:09:00.196Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-03T19:09:04.955Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions 200
+[debug] [2025-07-03T19:09:04.964Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/my-share-to-earn:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-03T19:09:04.978Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:04.986Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:04.987Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn [none]
+[debug] [2025-07-03T19:09:07.037Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn 200
+[debug] [2025-07-03T19:09:07.038Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/my-share-to-earn {"projectId":"my-share-to-earn","projectNumber":"617306040136","displayName":"ALC ACADEMY SYSTEM","name":"projects/my-share-to-earn","resources":{"hostingSite":"my-share-to-earn","realtimeDatabaseInstance":"my-share-to-earn-default-rtdb"},"state":"ACTIVE","etag":"1_c055c849-e98a-463d-a3d2-19db0bb625f5"}
+[info] 
+[info] === Deploying to 'my-share-to-earn'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-07-03T19:09:07.071Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:07.072Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:07.073Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions [none]
+[debug] [2025-07-03T19:09:07.073Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-07-03T19:09:11.395Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions 200
+[debug] [2025-07-03T19:09:11.396Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions {"name":"projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[my-share-to-earn]: beginning deploy... 
+[info] i  hosting[my-share-to-earn]: found 18 files in . 
+[debug] [2025-07-03T19:09:11.452Z] [hosting] uploading with 200 concurrency
+[debug] [2025-07-03T19:09:11.484Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:11.485Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:11.488Z] [hosting] hash cache [] stored for 18 files
+[debug] [2025-07-03T19:09:11.489Z] [hosting][hash queue][FINAL] {"max":26,"min":1,"avg":3.888888888888889,"active":0,"complete":18,"success":18,"errored":0,"retried":0,"total":18,"elapsed":33}
+[debug] [2025-07-03T19:09:11.490Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be:populateFiles [none]
+[debug] [2025-07-03T19:09:11.491Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be:populateFiles {"files":{"/windsurf_deployment.yaml":"6bf0d26451d115a619a891e2ee80b74aca0e78002191f4885c0e6cb63bb4d2d0","/temp.txt":"43f32b05dad9286c5dc84d789111a60ffa45015678b240d7b56085411eadc1c6","/styles.css":"86295e96ffd813488e38c808e4a0e480b91f71d33363a1d156808fda84f6c708","/student-registration.js":"da3a7364e7041863617d5fbb4afe96b934aae17d62097eaff007dd80bfe426d6","/student-registration.html":"3bfded1fb9ba59b269dba084b8c95aa3ccd39223370e0df079de7629dcbbe962","/student-list.html":"33569703c3dc75c5021b1edfccc82d4b0eab7c957e12a2f61c47d0ad7f39c6fc","/pay-fee.js":"98a49d2547d9ee13accff9b593f04d99095557c7c639ea3d382ccd5b17e85342","/pay-fee.html":"12282dbb2b6903cfab647b992617fd526caeba3f4ed6ec8c886a13fd0f7c8d16","/pay-fee.css":"dd6f5878b89bb6d1709ba6e26f764cfe1a81f04a00159340dd0b64615ec64e46","/index.html":"819f404cd78d1b785a9934330e5fce084741b17c5e356c24eef4e36bbf01348d","/firebase-setup.html":"deaef594292c8a54934a148c4c9808d2e965c56dd8f0f61e71ebe379651b0e9c","/firebase-config.js":"1e9658d52943e4905ddcc6062ae821fcc47da6c3c7591a7401d52c7fb15eaa0a","/fee-structure.html":"370bcb296f202686328bdd1620c82edf1b62f804497e9103374d35ef546311fa","/fee-structure.css":"ffd9bf442135fbd84744f0fe4a69633e18ac07c68de05fb033d02ea08784150b","/.vscode/launch.json":"186f9d5d4c7add7e522e29903ed87ff20068ef0e70b4ae8091def08840a2632e","/pglite-debug.log":"46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e","/fee-structure.js":"186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95","/student-list.js":"1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5"}}
+[debug] [2025-07-03T19:09:12.280Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be:populateFiles 200
+[debug] [2025-07-03T19:09:12.282Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be:populateFiles {"uploadRequiredHashes":["186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95","1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files"}
+[debug] [2025-07-03T19:09:12.286Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:12.287Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:12.291Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:12.292Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:12.294Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95 [none]
+[debug] [2025-07-03T19:09:12.295Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95 [stream]
+[debug] [2025-07-03T19:09:12.307Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5 [none]
+[debug] [2025-07-03T19:09:12.308Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5 [stream]
+[debug] [2025-07-03T19:09:12.315Z] [hosting][populate queue][FINAL] {"max":809,"min":809,"avg":809,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":831}
+[debug] [2025-07-03T19:09:12.319Z] [hosting] uploads queued: 2
+[info] i  hosting: uploading new files [0/2] (0%) 
+[debug] [2025-07-03T19:09:14.437Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5 200
+[debug] [2025-07-03T19:09:14.440Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/1f18e9bcb4220682fc3a8c93dc2243f8a05a89bd63cd0720b122d73b9cb5dbf5 [stream]
+[debug] [2025-07-03T19:09:14.444Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95 200
+[debug] [2025-07-03T19:09:14.446Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/my-share-to-earn/versions/02e12de4b51aa0be/files/186b8471878e9edc9a2a7cc3830da05e622aaa61a6355cd1e375f7afca7c5e95 [stream]
+[debug] [2025-07-03T19:09:14.449Z] [hosting][upload queue][FINAL] {"max":2163,"min":2153,"avg":2158,"active":0,"complete":2,"success":2,"errored":0,"retried":0,"total":2,"elapsed":2164}
+[info] i  hosting: upload complete 
+[info] +  hosting[my-share-to-earn]: file upload complete 
+[debug] [2025-07-03T19:09:14.454Z] [hosting] deploy completed after 3043ms
+[debug] [2025-07-03T19:09:14.455Z] [
+  {
+    "config": {
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "my-share-to-earn"
+    },
+    "version": "projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be"
+  }
+]
+[info] i  hosting[my-share-to-earn]: finalizing version... 
+[debug] [2025-07-03T19:09:14.467Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:14.472Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:14.473Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/02e12de4b51aa0be updateMask=status%2Cconfig
+[debug] [2025-07-03T19:09:14.474Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/02e12de4b51aa0be {"status":"FINALIZED","config":{}}
+[debug] [2025-07-03T19:09:15.442Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/02e12de4b51aa0be 200
+[debug] [2025-07-03T19:09:15.443Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/versions/02e12de4b51aa0be {"name":"projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T07:08:05.338585Z","createUser":{"email":"sararav136@gmail.com"},"finalizeTime":"2025-07-03T07:08:09.998249Z","finalizeUser":{"email":"sararav136@gmail.com"}}
+[debug] [2025-07-03T19:09:15.446Z] [hosting] finalized version for my-share-to-earn:[object Object]
+[info] +  hosting[my-share-to-earn]: version finalized 
+[info] i  hosting[my-share-to-earn]: releasing new version... 
+[debug] [2025-07-03T19:09:15.452Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:15.454Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:09:15.455Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases versionName=projects%2F617306040136%2Fsites%2Fmy-share-to-earn%2Fversions%2F02e12de4b51aa0be
+[debug] [2025-07-03T19:09:15.456Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases {}
+[debug] [2025-07-03T19:09:16.355Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases 200
+[debug] [2025-07-03T19:09:16.357Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/my-share-to-earn/channels/live/releases {"name":"projects/617306040136/sites/my-share-to-earn/channels/live/releases/1751526490164000","version":{"name":"projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T07:08:05.338585Z","createUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"},"finalizeTime":"2025-07-03T07:08:09.998249Z","finalizeUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}},"type":"DEPLOY","releaseTime":"2025-07-03T07:08:10.164Z","releaseUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}}
+[debug] [2025-07-03T19:09:16.360Z] [hosting] release: {"name":"projects/617306040136/sites/my-share-to-earn/channels/live/releases/1751526490164000","version":{"name":"projects/617306040136/sites/my-share-to-earn/versions/02e12de4b51aa0be","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-07-03T07:08:05.338585Z","createUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"},"finalizeTime":"2025-07-03T07:08:09.998249Z","finalizeUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}},"type":"DEPLOY","releaseTime":"2025-07-03T07:08:10.164Z","releaseUser":{"email":"sararav136@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocIL1rFrlUzR_EBc7hkoQH7AvhvCtWWbvUpT81V-FjF9I5j-pst6"}}
+[info] +  hosting[my-share-to-earn]: release complete 
+[info] 
+[info] +  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/my-share-to-earn/overview
+[info] Hosting URL: https://my-share-to-earn.web.app
+[debug] [2025-07-03T19:12:17.278Z] ----------------------------------------------------------------------
+[debug] [2025-07-03T19:12:17.281Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2025-07-03T19:12:17.282Z] CLI Version:   14.9.0
+[debug] [2025-07-03T19:12:17.282Z] Platform:      win32
+[debug] [2025-07-03T19:12:17.282Z] Node Version:  v22.17.0
+[debug] [2025-07-03T19:12:17.282Z] Time:          Thu Jul 03 2025 22:12:17 GMT+0300 (East Africa Time)
+[debug] [2025-07-03T19:12:17.283Z] ----------------------------------------------------------------------
+[debug] 
+[error] 
+[error] Error: Invalid project id: Agape-life-centre-academy.
+Note: Project id must be all lowercase.
+[debug] [2025-07-03T19:13:55.925Z] ----------------------------------------------------------------------
+[debug] [2025-07-03T19:13:55.928Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2025-07-03T19:13:55.929Z] CLI Version:   14.9.0
+[debug] [2025-07-03T19:13:55.929Z] Platform:      win32
+[debug] [2025-07-03T19:13:55.929Z] Node Version:  v22.17.0
+[debug] [2025-07-03T19:13:55.930Z] Time:          Thu Jul 03 2025 22:13:55 GMT+0300 (East Africa Time)
+[debug] [2025-07-03T19:13:55.930Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-03T19:13:56.275Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-03T19:13:56.276Z] > authorizing via signed-in user (sararav136@gmail.com)
+[debug] [2025-07-03T19:13:56.276Z] [iam] checking project agape-life-centre-academy for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-07-03T19:13:56.278Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:13:56.278Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:13:56.279Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/agape-life-centre-academy:testIamPermissions [none]
+[debug] [2025-07-03T19:13:56.280Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/agape-life-centre-academy:testIamPermissions x-goog-quota-user=projects/agape-life-centre-academy
+[debug] [2025-07-03T19:13:56.280Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/agape-life-centre-academy:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-07-03T19:13:58.611Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/agape-life-centre-academy:testIamPermissions 200
+[debug] [2025-07-03T19:13:58.611Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/agape-life-centre-academy:testIamPermissions {}
+[debug] [2025-07-03T19:13:58.611Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project agape-life-centre-academy:
+
+  firebase.projects.get
+  firebasehosting.sites.update
+[debug] [2025-07-03T19:13:58.613Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:13:58.613Z] Checked if tokens are valid: true, expires at: 1751571398508
+[debug] [2025-07-03T19:13:58.613Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/agape-life-centre-academy [none]
+[debug] [2025-07-03T19:13:59.962Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/agape-life-centre-academy 403
+[debug] [2025-07-03T19:13:59.962Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/agape-life-centre-academy {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2025-07-03T19:13:59.965Z] Request to https://firebase.googleapis.com/v1beta1/projects/agape-life-centre-academy had HTTP Error: 403, The caller does not have permission
+[debug] [2025-07-03T19:14:00.460Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/agape-life-centre-academy had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:52:12)
+    at RetryOperation._fn (C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:312:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to get Firebase project agape-life-centre-academy. Please make sure the project exists and your account has permission to access it.

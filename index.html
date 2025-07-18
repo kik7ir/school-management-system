@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+        <style>
+        :root {
+            /* Color Palette */
+            --primary-color: #2563eb;      /* Bright blue */
+            --primary-dark: #1d4ed8;       /* Darker blue */
+            --primary-darker: #1e40af;     /* Deep blue */
+            --accent: #3b82f6;             /* Lighter blue */
+            --background: #0f172a;         /* Dark blue-black */
+            --surface: #1e293b;            /* Dark slate */
+            --surface-light: #334155;      /* Lighter slate */
+            --text-primary: #f8fafc;       /* Off-white */
+            --text-secondary: #94a3b8;     /* Light gray */
+            --border-color: #2d3748;       /* Dark border */
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 20px rgba(59, 130, 246, 0.3);
+            
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-lg);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            transition: var(--transition);
+        }
+        
+        .header.scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: var(--shadow-xl);
+            padding: 0.75rem 2rem;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent));
+            color: white;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+        }
+        
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            background-color: var(--surface);
+            color: var(--text-primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        
+        .main-container {
+            flex: 1;
+            padding: 2.5rem 2rem 4rem;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .welcome-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        
+        .welcome-section p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0 2rem;
+            perspective: 1000px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dashboard-card {
+            background: linear-gradient(145deg, var(--surface), var(--surface-light));
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-slow);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            transform-style: preserve-3d;
+            z-index: 1;
+        }
+        
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent));
+            transition: var(--transition);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl), var(--glow);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .dashboard-card:hover::after {
+            opacity: 1;
+        }
+        
+        .dashboard-card:hover::before {
+            width: 6px;
+        }
+        
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: white;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .dashboard-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent));
+            border-radius: 3px;
+        }
+        
+        .dashboard-card h3 i {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: var(--transition);
+        }
+        
+        .dashboard-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+            flex-grow: 1;
+            font-size: 1rem;
+            line-height: 1.7;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dashboard-card .btn {
+            align-self: flex-start;
+            margin-top: auto;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-darker));
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .dashboard-card .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .dashboard-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+        
+        .dashboard-card .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .footer {
+            background: var(--surface);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .main-container {
+                padding: 2rem 1.5rem 3.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1.25rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                padding-top: 0.5rem;
+            }
+            
+            .main-container {
+                padding: 1.75rem 1.25rem 3rem;
+            }
+            
+            .welcome-section {
+                margin-bottom: 2rem;
+            }
+            
+            .welcome-section h2 {
+                font-size: 1.75rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .welcome-section p {
+                margin-bottom: 1.5rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                margin: 2rem 0;
+            }
+            
+            .dashboard-card {
+                margin: 0;
+                transform: none !important;
+                transition: var(--transition) !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+            
+            .welcome-section h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .welcome-section p {
+                font-size: 0.95rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .main-container {
+                padding: 1.5rem 1rem 2.5rem;
+            }
+            
+            .dashboard-card {
+                padding: 1.5rem 1.25rem;
+            }
+            
+            .dashboard-card h3 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+            
+            .dashboard-card p {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Agape Life Centre Academy</h1>
+            <div class="nav-buttons">
+                <a href="student-registration.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> New Student
+                </a>
+                <a href="student-list.html" class="btn btn-outline">
+                    <i class="fas fa-list"></i> Student List
+                </a>
+                <a href="fee-balances.html" class="btn btn-outline">
+                    <i class="fas fa-money-bill-wave"></i> Fee Balances
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="welcome-section">
+            <h2>Welcome to School Management System</h2>
+            <p>Efficiently manage student records, fee payments, and school operations in one place.</p>
+        </section>
+
+        <div class="dashboard">
+            <!-- Quick Actions -->
+            <div class="dashboard-card">
+                <h3><i class="fas fa-user-graduate"></i> Student Registration</h3>
+                <p>Register new students and manage their academic records efficiently.</p>
+                <a href="student-registration.html" class="btn btn-primary">Register Now</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3><i class="fas fa-users"></i> Student Directory</h3>
+                <p>Access and manage complete student information and records.</p>
+                <a href="student-list.html" class="btn btn-primary">View Students</a>
+            </div>
+
+            <!-- Fee Management -->
+            <div class="dashboard-card">
+                <h3><i class="fas fa-money-bill-wave"></i> Fee Management</h3>
+                <p>Process fee payments, generate receipts, and track outstanding balances.</p>
+                <a href="fee-balances.html" class="btn btn-primary">Manage Fees</a>
+            </div>
+
+            <!-- Reports -->
+            <div class="dashboard-card">
+                <h3><i class="fas fa-chart-bar"></i> Reports</h3>
+                <p>Generate detailed reports on student performance and financials.</p>
+                <a href="#" class="btn btn-primary">View Reports</a>
+            </div>
+
+            <!-- Attendance -->
+            <div class="dashboard-card">
+                <h3><i class="fas fa-clipboard-check"></i> Attendance</h3>
+                <p>Record and monitor student attendance with ease.</p>
+                <a href="attendance-portal.html" class="btn btn-primary">Manage Attendance</a>
+            </div>
+
+            <!-- Transport -->
+            <div class="dashboard-card">
+                <h3><i class="fas fa-bus"></i> Transport</h3>
+                <p>Manage transport routes and student transportation details.</p>
+                <a href="#" class="btn btn-primary">View Routes</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Agape Life Centre Academy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Animate cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation delay to each card
+            const cards = document.querySelectorAll('.dashboard-card');
+            const header = document.querySelector('header');
+            
+            // Add scroll event for header
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Initialize cards with staggered animation
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                // Add 3D tilt effect on mouse move
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const angleX = (y - centerY) / 20;
+                    const angleY = (centerX - x) / 20;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-8px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(-8px)';
+                });
+            });
+            
+            // Parallax effect for background elements
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth - e.pageX) / 50;
+                const y = (window.innerHeight - e.pageY) / 50;
+                document.body.style.backgroundPosition = `${x}px ${y}px`;
+            });
+            
+            // Add ripple effect to buttons with improved performance
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 2;
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Force reflow
+                    void ripple.offsetWidth;
+                    
+                    // Start animation
+                    ripple.style.transform = 'scale(1)';
+                    ripple.style.opacity = '0.4';
+                    
+                    // Clean up after animation
+                    const removeRipple = () => {
+                        ripple.removeEventListener('transitionend', removeRipple);
+                        ripple.remove();
+                        
+                        // Only navigate if the button is still in the DOM
+                        if (document.body.contains(button)) {
+                            const href = button.getAttribute('href');
+                            if (href) window.location.href = href;
+                        }
+                    };
+                    
+                    ripple.addEventListener('transitionend', removeRipple);
+                });
+            });
+            
+            // Add styles for ripple effect and animations
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Ripple effect */
+                .btn {
+                    position: relative;
+                    overflow: hidden;
+                    transform: translateZ(0);
+                }
+                
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+                    will-change: transform, opacity;
+                }
+                
+                /* Card animations */
+                @keyframes cardAppear {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                /* Glow effect for cards on hover */
+                .dashboard-card:hover {
+                    z-index: 10;
+                }
+                
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                    .dashboard {
+                        grid-template-columns: 1fr;
+                        gap: 1.25rem;
+                    }
+                    
+                    .dashboard-card {
+                        padding: 1.5rem 1.25rem;
+                        transform: none !important;
+                    }
+                    
+                    .dashboard-card h3 {
+                        font-size: 1.25rem;
+                    }
+                    
+                    .dashboard-card .btn {
+                        padding: 0.65rem 1.25rem;
+                        font-size: 0.9rem;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
+
