@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "./dist"
+  command = "echo 'No build needed for static site'"
+  publish = "/"
   functions = "netlify/functions"
 
 [[redirects]]
@@ -11,4 +11,4 @@
 [dev]
   framework = "#custom"
   targetPort = 3000
-  publish = "./dist"
+  publish = "/"
