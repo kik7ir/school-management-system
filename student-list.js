@@ -1781,10 +1781,13 @@ function filterByTerm(term) {
     displayStudents(term);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadFeeStructure();
-    // Always show all students for the default term
-    const termSelect = document.getElementById('termSelect');
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Initialize fee service first
+        await initializeFeeService();
+        
+        // Always show all students for the default term
+        const termSelect = document.getElementById('termSelect');
     let currentTerm = localStorage.getItem('selectedTerm') || 'Term 1';
     
     // Set the initial selected value
@@ -2230,6 +2233,12 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('System has been reset for the new academic year. All payment histories have been cleared.');
     }
     displayStudents(currentTerm);
+    } catch (error) {
+        console.error('Error initializing:', error);
+        // Fallback to localStorage
+        loadFeeStructure();
+        displayStudents(currentTerm);
+    }
 });
 
 // formatBillingOptions function is defined earlier in the file with complete implementation
