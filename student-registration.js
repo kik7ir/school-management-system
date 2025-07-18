@@ -281,6 +281,9 @@ function updateClassTeacher(selectedClass) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        // Generate admission number first
+        await generateAdmissionNumber();
+
         // Add event listener for class selection change
         const classSelect = document.getElementById('class');
         if (classSelect) {
@@ -291,7 +294,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         await loadCustomFees();
         updateClassTeacher('');
-        await generateAdmissionNumber();
 
         // Ensure feeStructure is only set once
         if (!window.feeStructure) {
@@ -335,10 +337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Generate admission number for new student
-        if (!isEdit) {
-            generateAdmissionNumber();
-        }
+
 
         // Check if we're editing an existing student
         if (isEdit) {
