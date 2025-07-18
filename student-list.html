@@ -1181,14 +1181,29 @@
                 });
 
                 // Initialize with saved term or default to Term 1
-                const savedTerm = localStorage.getItem('selectedTerm') || 'Term 1';
-                console.log('Initializing with saved term:', savedTerm);
+                const savedTerm = localStorage.getItem('activeTerm') || 'Term 1';
                 setActiveTerm(savedTerm);
             }
             
             // Initialize when DOM is loaded
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
+                    initializeFeeService().then(() => {
+                        // Initialize with saved term
+                        const savedTerm = localStorage.getItem('activeTerm') || 'Term 1';
+                        setActiveTerm(savedTerm);
+                        
+                        // Initialize term buttons
+                        initializeTermButtons();
+                        
+                        // Load students and display
+                        displayStudents();
+                    }).catch(error => {
+                        console.error('Error initializing:', error);
+                        // Fallback to localStorage
+                        loadFeeStructure();
+                        displayStudents();
+                    });
                     initializeTermButtons();
                     setupActionButtons();
                 });

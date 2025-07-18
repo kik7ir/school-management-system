@@ -23,7 +23,21 @@ function getStudents() {
     return students;
 }
 
-// Load fee structure from localStorage or use defaults from fee-structure.js
+import { feeService } from './fee-service.js';
+
+// Initialize fee service
+async function initializeFeeService() {
+    try {
+        await feeService.initialize();
+        console.log('Fee structure initialized from Supabase');
+    } catch (error) {
+        console.error('Error initializing fee service:', error);
+        // Fallback to localStorage if Supabase fails
+        loadFeeStructure();
+    }
+}
+
+// Load fee structure from localStorage as fallback
 function loadFeeStructure() {
     const savedSchoolFees = JSON.parse(localStorage.getItem('schoolFees')) || feeStructure.schoolFees;
     const savedLunchFees = JSON.parse(localStorage.getItem('lunchFees')) || feeStructure.lunchFees;
@@ -37,56 +51,7 @@ function loadFeeStructure() {
 
 // Calculate total fee for a student for a specific term
 function calculateTotalFee(student, term = 'Term 1') {
-    let totalFee = 0;
-    
-    // Get term-specific billing options or fallback to root level
-    const termBilling = student.termBilling?.[term] || {};
-    
-    // School fee (always included if student is enrolled for this term)
-    const schoolFeeEnabled = termBilling.schoolFee !== undefined ? termBilling.schoolFee : student.schoolFee;
-    if (schoolFeeEnabled && feeStructure.schoolFees[term]?.[student.class]) {
-        totalFee += feeStructure.schoolFees[term][student.class];
-    }
-    
-    // Transport fee (only if enabled for this term)
-    const transportEnabled = termBilling.transport !== undefined ? termBilling.transport : student.transport;
-    const transportLocation = termBilling.transportLocation || student.transportLocation;
-    
-    if (transportEnabled && transportLocation) {
-        // Use both 'Kipkaren' and 'Kipkaren Estate' as valid keys
-        let locKey = transportLocation;
-        if (!feeStructure.transportFees[term]?.[locKey] && locKey.includes('Kipkaren')) {
-            locKey = Object.keys(feeStructure.transportFees[term] || {}).find(k => k.includes('Kipkaren')) || locKey;
-        }
-        const transportFee = feeStructure.transportFees[term]?.[locKey];
-        if (transportFee) totalFee += parseFloat(transportFee) || 0;
-    }
-    
-    // Lunch fee (only if enabled for this term)
-    const lunchEnabled = termBilling.lunch !== undefined ? termBilling.lunch : student.lunch;
-    if (lunchEnabled && feeStructure.lunchFees?.[term]) {
-        totalFee += parseFloat(feeStructure.lunchFees[term]) || 0;
-    }
-    
-    // Other optional fees (only if enabled for this term)
-    const optionalFees = {
-        reamPaper: 'REAM Paper',
-        activity: 'Activity',
-        admissionFee: 'Admission Fee',
-        swimming: 'Swimming',
-        ujiTea: 'Uji/Tea',
-        snacks: 'Snacks',
-        trip: 'Trip'
-    };
-    
-    for (const [key, feeName] of Object.entries(optionalFees)) {
-        const feeEnabled = termBilling[key] !== undefined ? termBilling[key] : student[key];
-        if (feeEnabled && feeStructure.otherFees?.[term]?.[feeName]) {
-            totalFee += parseFloat(feeStructure.otherFees[term][feeName]) || 0;
-        }
-    }
-    
-    return totalFee.toLocaleString();
+    return feeService.calculateTotalFee(student, term).toLocaleString();
 }
 
 // Calculate total payments for a student in a specific term
